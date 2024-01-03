@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<Workspace>
+  <ConfigDictionary>
+    
+  <CurrentConfigs><Project>DMA/Debug</Project></CurrentConfigs></ConfigDictionary>
+  <Desktop>
+    <Static>
+      <Workspace>
+        <ColumnWidths>
+          
+          
+          
+          
+        <Column0>234</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
+      </Workspace>
+      <Build>
+        
+        
+        
+        
+      <ColumnWidth0>20</ColumnWidth0><ColumnWidth1>844</ColumnWidth1><ColumnWidth2>225</ColumnWidth2><ColumnWidth3>56</ColumnWidth3></Build>
+    <TerminalIO/><Find-in-Files><ColumnWidth0>468</ColumnWidth0><ColumnWidth1>66</ColumnWidth1><ColumnWidth2>802</ColumnWidth2></Find-in-Files><Debug-Log><ColumnWidth0>21</ColumnWidth0><ColumnWidth1>1476</ColumnWidth1></Debug-Log></Static>
+    <Windows>
+      
+      
+    <Wnd0>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-12980-15874</Identity>
+            <TabName>Workspace</TabName>
+            <Factory>Workspace</Factory>
+            <Session>
+              
+            <NodeDict><ExpandedNode>DMA</ExpandedNode><ExpandedNode>DMA/DMA.c</ExpandedNode><ExpandedNode>DMA/wait.c</ExpandedNode></NodeDict></Session>
+          </Tab>
+        </Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd0><Wnd1>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-9969-16749</Identity>
+            <TabName>Build</TabName>
+            <Factory>Build</Factory>
+            <Session/>
+          </Tab>
+        <Tab><Identity>TabID-67-22822</Identity><TabName>Find in Files</TabName><Factory>Find-in-Files</Factory><Session/></Tab><Tab><Identity>TabID-10382-13533</Identity><TabName>Debug Log</TabName><Factory>Debug-Log</Factory><Session/></Tab></Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd1></Windows>
+    <Editor>
+      
+      
+      
+      
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\DMA.c</Filename><XPos>0</XPos><YPos>184</YPos><SelStart>5054</SelStart><SelEnd>5054</SelEnd></Tab><ActiveTab>0</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\wait.c</Filename><XPos>0</XPos><YPos>3</YPos><SelStart>741</SelStart><SelEnd>741</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\hal.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>68572</SelStart><SelEnd>68579</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\hal_types.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>540</SelStart><SelEnd>540</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>C:\Program Files (x86)\IAR Systems\Embedded Workbench 6.0\8051\inc\ioCC2530.h</Filename><XPos>0</XPos><YPos>588</YPos><SelStart>31898</SelStart><SelEnd>31904</SelEnd></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Positions>
+      
+      
+      
+      
+      
+    <Top><Row0><Sizes><Toolbar-050409f0><key>iaridepm.enu1</key></Toolbar-050409f0></Sizes></Row0><Row1><Sizes/></Row1><Row2><Sizes/></Row2><Row3><Sizes><Toolbar-05115718><key>debuggergui.enu1</key></Toolbar-05115718></Sizes></Row3></Top><Left><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>642</Bottom><Right>308</Right><x>-2</x><y>-2</y><xscreen>310</xscreen><yscreen>296</yscreen><sizeHorzCX>218618</sizeHorzCX><sizeHorzCY>337130</sizeHorzCY><sizeVertCX>218618</sizeVertCX><sizeVertCY>733485</sizeVertCY></Rect></Wnd0></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>191</Bottom><Right>1420</Right><x>-2</x><y>-2</y><xscreen>1422</xscreen><yscreen>193</yscreen><sizeHorzCX>1002821</sizeHorzCX><sizeHorzCY>219818</sizeHorzCY><sizeVertCX>218618</sizeVertCX><sizeVertCY>337130</sizeVertCY></Rect></Wnd1></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+  </Desktop>
+</Workspace>
+
+
