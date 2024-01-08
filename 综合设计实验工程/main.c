@@ -9,24 +9,24 @@
 #define uint unsigned int
 #define uchar unsigned char
 
-#define LED1 P1_0 // ¶¨ÒåP1.0¿ÚÎªLED1¿ØÖÆ¶Ë
-#define LED2 P1_1 // ¶¨ÒåP1.1¿ÚÎªLED2¿ØÖÆ¶Ë
-#define LED3 P1_4 // ¶¨ÒåP1.4¿ÚÎªLED3¿ØÖÆ¶Ë
+#define LED1 P1_0 // å®šä¹‰P1.0å£ä¸ºLED1æ§åˆ¶ç«¯
+#define LED2 P1_1 // å®šä¹‰P1.1å£ä¸ºLED2æ§åˆ¶ç«¯
+#define LED3 P1_4 // å®šä¹‰P1.4å£ä¸ºLED3æ§åˆ¶ç«¯
 
-#define KEY1 P0_1 // P0.1¿Ú¿ØÖÆ°´¼üKEY1
-#define KEY2 P2_0 // P2.0¿Ú¿ØÖÆ°´¼üKEY2
-#define KEY3 P0_7 // P0.7¿Ú¿ØÖÆ°´¼üKEY3
+#define KEY1 P0_1 // P0.1å£æ§åˆ¶æŒ‰é”®KEY1
+#define KEY2 P2_0 // P2.0å£æ§åˆ¶æŒ‰é”®KEY2
+#define KEY3 P0_7 // P0.7å£æ§åˆ¶æŒ‰é”®KEY3
 
 #define ACK 1
 #define noACK 0
 
-uchar KeyValue = 0; // ¸Õ¸Õ°´ÏÂµÄKEYµÄÖµ
+uchar KeyValue = 0; // åˆšåˆšæŒ‰ä¸‹çš„KEYçš„å€¼
 
 union
 {
 	unsigned int i;
 	float f;
-} humi_val, temp_val; // ¶¨ÒåÁ½¸ö¹²Í¬Ìå£¬Ò»¸öÓÃÓÚÊª¶È£¬Ò»¸öÓÃÓÚÎÂ¶È
+} humi_val, temp_val; // å®šä¹‰ä¸¤ä¸ªå…±åŒä½“ï¼Œä¸€ä¸ªç”¨äºæ¹¿åº¦ï¼Œä¸€ä¸ªç”¨äºæ¸©åº¦
 
 char temp_result[15] = {0};
 float temp_value = 0;
@@ -35,10 +35,10 @@ float humi_value = 0;
 
 uchar count = 0;
 char RxBuf;
-char RxData[51];	 // ´æ´¢½ÓÊÕµÄ×Ö·û´®
-char key3_state = 0; // 0µÄÊ±ºòÊÇ·ÇÊä³ö×´Ì¬£¬1µÄÊ±ºòÊÇÊä³öÊı¾İµÄ×´Ì¬
+char RxData[51];	 // å­˜å‚¨æ¥æ”¶çš„å­—ç¬¦ä¸²
+char key3_state = 0; // 0çš„æ—¶å€™æ˜¯éè¾“å‡ºçŠ¶æ€ï¼Œ1çš„æ—¶å€™æ˜¯è¾“å‡ºæ•°æ®çš„çŠ¶æ€
 
-// ¸ø°´¼üÏû¶¶ÓÃµÄDelayº¯Êı£¬Ã»ÓĞPause
+// ç»™æŒ‰é”®æ¶ˆæŠ–ç”¨çš„Delayå‡½æ•°ï¼Œæ²¡æœ‰Pause
 void DelayMS_for_KEY(uint msec)
 {
 	uint i, j;
@@ -53,76 +53,76 @@ void DelayMS_for_KEY(uint msec)
 
 void Initial_IO(void)
 {
-	P0DIR |= 0xff; // P0¶¨ÒåÎªÊä³ö
-	P1DIR |= 0xff; // P1¶¨ÒåÎªÊä³ö
+	P0DIR |= 0xff; // P0å®šä¹‰ä¸ºè¾“å‡º
+	P1DIR |= 0xff; // P1å®šä¹‰ä¸ºè¾“å‡º
 }
 
-// ³õÊ¼»¯ADC
+// åˆå§‹åŒ–ADC
 void InitialAD(void)
 {
 	// 0000 0000 | 1 = 0000 0001
-	P0SEL |= (1 << (4));  // ÉèÖÃP0.4ÎªÍâÉèIO¿Ú
-	P0DIR &= ~(1 << (4)); // ÉèÖÃP0.4ÎªÊäÈëI/O
+	P0SEL |= (1 << (4));  // è®¾ç½®P0.4ä¸ºå¤–è®¾IOå£
+	P0DIR &= ~(1 << (4)); // è®¾ç½®P0.4ä¸ºè¾“å…¥I/O
 
-	// LED1 = 1; // Æô¶¯ADC×ª»»£¬ Ö¸Ê¾µÆ
+	// LED1 = 1; // å¯åŠ¨ADCè½¬æ¢ï¼Œ æŒ‡ç¤ºç¯
 
-	ADCCON1 &= ~0x80; // ÇåEOC±êÖ¾
-	APCFG |= 0x10;	  // ÉèÖÃP0.4ÎªÄ£ÄâI/O
+	ADCCON1 &= ~0x80; // æ¸…EOCæ ‡å¿—
+	APCFG |= 0x10;	  // è®¾ç½®P0.4ä¸ºæ¨¡æ‹ŸI/O
 	// 1011 0100
-	ADCCON3 = 0xb4;	 // µ¥´Î×ª»»,²Î¿¼µçÑ¹ÎªµçÔ´µçÑ¹  //14Î»·Ö±æÂÊ
-	ADCCON1 = 0X30;	 // Í£Ö¹A/D
-	ADCCON1 |= 0X40; // ADCCON1.ST=1£¬Æô¶¯A/D
+	ADCCON3 = 0xb4;	 // å•æ¬¡è½¬æ¢,å‚è€ƒç”µå‹ä¸ºç”µæºç”µå‹  //14ä½åˆ†è¾¨ç‡
+	ADCCON1 = 0X30;	 // åœæ­¢A/D
+	ADCCON1 |= 0X40; // ADCCON1.ST=1ï¼Œå¯åŠ¨A/D
 }
 
-// ³õÊ¼»¯°´¼ü
+// åˆå§‹åŒ–æŒ‰é”®
 void InitKey()
 {
-	P0SEL &= ~0x02; // ÉèÖÃP0.1ÎªÆÕÍ¨IO¿Ú
-	P0DIR &= ~0x02; // °´¼ü½ÓÔÚP0.1¿ÚÉÏ£¬ÉèP0.1ÎªÊäÈëÄ£Ê½
-	P0INP &= ~0x02; // ´ò¿ªP0.7ÉÏÀ­µç×è
+	P0SEL &= ~0x02; // è®¾ç½®P0.1ä¸ºæ™®é€šIOå£
+	P0DIR &= ~0x02; // æŒ‰é”®æ¥åœ¨P0.1å£ä¸Šï¼Œè®¾P0.1ä¸ºè¾“å…¥æ¨¡å¼
+	P0INP &= ~0x02; // æ‰“å¼€P0.7ä¸Šæ‹‰ç”µé˜»
 
-	P0SEL &= ~0x80; // ÉèÖÃP0.7ÎªÆÕÍ¨IO¿Ú
-	P0DIR &= ~0x80; // °´¼ü½ÓÔÚP0.7¿ÚÉÏ£¬ÉèP0.7ÎªÊäÈëÄ£Ê½
-	P0INP &= ~0x80; // ´ò¿ªP0.7ÉÏÀ­µç×è
+	P0SEL &= ~0x80; // è®¾ç½®P0.7ä¸ºæ™®é€šIOå£
+	P0DIR &= ~0x80; // æŒ‰é”®æ¥åœ¨P0.7å£ä¸Šï¼Œè®¾P0.7ä¸ºè¾“å…¥æ¨¡å¼
+	P0INP &= ~0x80; // æ‰“å¼€P0.7ä¸Šæ‹‰ç”µé˜»
 
-	P2SEL &= ~0x01; // ÉèÖÃP2.0ÎªÆÕÍ¨IO¿Ú
-	P2DIR &= ~0x01; // °´¼ü½ÓÔÚP2.0¿ÚÉÏ£¬ÉèP2.0ÎªÊäÈëÄ£Ê½
-	P2INP &= ~0x01; // ´ò¿ªP2.0µÄÉÏÀ­µç×è
+	P2SEL &= ~0x01; // è®¾ç½®P2.0ä¸ºæ™®é€šIOå£
+	P2DIR &= ~0x01; // æŒ‰é”®æ¥åœ¨P2.0å£ä¸Šï¼Œè®¾P2.0ä¸ºè¾“å…¥æ¨¡å¼
+	P2INP &= ~0x01; // æ‰“å¼€P2.0çš„ä¸Šæ‹‰ç”µé˜»
 
-	P0IEN |= 0x82; // P0.7, P0.1 ÉèÖÃÎªÖĞ¶Ï·½Ê½
-	PICTL |= 0x01; // ÏÂ½µÑØ´¥·¢
-	// IEN1 |= 0x20;   // ÔÊĞíP0¿ÚÖĞ¶Ï;
-	P0IE = 1;	  // ÔÊĞíP0¿ÚÖĞ¶Ï;
-	P0IFG = 0x00; // ³õÊ¼»¯ÖĞ¶Ï±êÖ¾Î»
+	P0IEN |= 0x82; // P0.7, P0.1 è®¾ç½®ä¸ºä¸­æ–­æ–¹å¼
+	PICTL |= 0x01; // ä¸‹é™æ²¿è§¦å‘
+	// IEN1 |= 0x20;   // å…è®¸P0å£ä¸­æ–­;
+	P0IE = 1;	  // å…è®¸P0å£ä¸­æ–­;
+	P0IFG = 0x00; // åˆå§‹åŒ–ä¸­æ–­æ ‡å¿—ä½
 
-	P2IEN |= 0x01; // P2.0 ÉèÖÃÎªÖĞ¶Ï·½Ê½
-	PICTL |= 0x08; // ÏÂ½µÑØ´¥·¢
+	P2IEN |= 0x01; // P2.0 è®¾ç½®ä¸ºä¸­æ–­æ–¹å¼
+	PICTL |= 0x08; // ä¸‹é™æ²¿è§¦å‘
 	// P2IE = 1;
-	IEN2 |= 0x02; // ÔÊĞíP2¿ÚÖĞ¶Ï
+	IEN2 |= 0x02; // å…è®¸P2å£ä¸­æ–­
 	P2IFG = 0x00;
 
 	EA = 1;
 }
 
 /*****************************************
- ´®¿Ú³õÊ¼»¯º¯Êı£º³õÊ¼»¯´®¿Ú UART0
+ ä¸²å£åˆå§‹åŒ–å‡½æ•°ï¼šåˆå§‹åŒ–ä¸²å£ UART0
 *****************************************/
 void InitUART0(void)
 {
-	P0SEL = 0x0c;	// P0.2 P0.3ÓÃ×÷´®¿Ú
-	PERCFG = 0x00;	// Ñ¡ÔñUSART0Î»ÖÃ1
-	P2DIR &= ~0XC0; // P0ÓÅÏÈ×÷ÎªUART0
-	U0CSR |= 0x80;	// ´®¿ÚÉèÖÃÎªUART·½Ê½
+	P0SEL = 0x0c;	// P0.2 P0.3ç”¨ä½œä¸²å£
+	PERCFG = 0x00;	// é€‰æ‹©USART0ä½ç½®1
+	P2DIR &= ~0XC0; // P0ä¼˜å…ˆä½œä¸ºUART0
+	U0CSR |= 0x80;	// ä¸²å£è®¾ç½®ä¸ºUARTæ–¹å¼
 	U0GCR |= 11;
-	U0BAUD |= 216; // ²¨ÌØÂÊÉèÎª115200
-	UTX0IF = 0;	   // UART0 TXÖĞ¶Ï±êÖ¾³õÊ¼ÖÃÎ»1
-	U0CSR |= 0X40; // ÔÊĞí½ÓÊÕ
+	U0BAUD |= 216; // æ³¢ç‰¹ç‡è®¾ä¸º115200
+	UTX0IF = 0;	   // UART0 TXä¸­æ–­æ ‡å¿—åˆå§‹ç½®ä½1
+	U0CSR |= 0X40; // å…è®¸æ¥æ”¶
 
-	IEN0 |= 0x84; // ¿ªÔÊĞí½ÓÊÕRxÖĞ¶Ï
-	EA = 1;		  // ×ÜÖĞ¶ÏÊ¹ÄÜ
+	IEN0 |= 0x84; // å¼€å…è®¸æ¥æ”¶Rxä¸­æ–­
+	EA = 1;		  // æ€»ä¸­æ–­ä½¿èƒ½
 }
 
-// ´®¿Ú·¢ËÍ×Ö·û´®º¯Êı
+// ä¸²å£å‘é€å­—ç¬¦ä¸²å‡½æ•°
 void UartTX_Send_String(char *Data, int len)
 {
 	int j;
@@ -133,37 +133,37 @@ void UartTX_Send_String(char *Data, int len)
 			;
 		UTX0IF = 0;
 	}
-	U0DBUF = 0x0A; // »»ĞĞ
+	U0DBUF = 0x0A; // æ¢è¡Œ
 	while (UTX0IF == 0)
 		;
 	UTX0IF = 0;
 }
 
-// ´®¿Ú½ÓÊÕÖĞ¶Ï
+// ä¸²å£æ¥æ”¶ä¸­æ–­
 #pragma vector = URX0_VECTOR
 __interrupt void UART0RX_ISR(void)
 {
-	URX0IF = 0;		// ÇåÖĞ¶Ï±êÖ¾
-	RxBuf = U0DBUF; // È¡³ö½ÓÊÕµ½×Ö½Ú
+	URX0IF = 0;		// æ¸…ä¸­æ–­æ ‡å¿—
+	RxBuf = U0DBUF; // å–å‡ºæ¥æ”¶åˆ°å­—èŠ‚
 }
 
-// ´®¿Ú½ÓÊÜ×Ö·û
+// ä¸²å£æ¥å—å­—ç¬¦
 void UartRecieveChar(char ch)
 {
 	if (ch != '#' && count < 50)
 	{
-		RxData[count++] = ch; // ÒÔ'££'Îª½áÊø·û,Ò»´Î×î¶à½ÓÊÕ50¸ö×Ö·û
+		RxData[count++] = ch; // ä»¥'ï¼ƒ'ä¸ºç»“æŸç¬¦,ä¸€æ¬¡æœ€å¤šæ¥æ”¶50ä¸ªå­—ç¬¦
 	}
 	else
 	{
 		if (count >= 50)
-		{						   // ÅĞ¶ÏÊı¾İºÏ·¨ĞÔ£¬·ÀÖ¹Òç³ö
-			count = 0;			   // ¼ÆÊıÇå0
-			memset(RxData, 0, 51); // Çå¿Õ½ÓÊÕ»º³åÇø
+		{						   // åˆ¤æ–­æ•°æ®åˆæ³•æ€§ï¼Œé˜²æ­¢æº¢å‡º
+			count = 0;			   // è®¡æ•°æ¸…0
+			memset(RxData, 0, 51); // æ¸…ç©ºæ¥æ”¶ç¼“å†²åŒº
 		}
 		else
 		{
-			// ÅĞ¶ÏÊÇ·ñÊÇGetData, Èç¹ûÊÇ£¬½øÈëState1
+			// åˆ¤æ–­æ˜¯å¦æ˜¯GetData, å¦‚æœæ˜¯ï¼Œè¿›å…¥State1
 			if (strcmp(RxData, "GetData") == 0)
 			{
 				key3_state = 1;
@@ -173,143 +173,143 @@ void UartRecieveChar(char ch)
 }
 
 /**************************
-ÏµÍ³Ê±ÖÓ ²»·ÖÆµ
-¼ÆÊıÊ±ÖÓ 32·ÖÆµ
+ç³»ç»Ÿæ—¶é’Ÿ ä¸åˆ†é¢‘
+è®¡æ•°æ—¶é’Ÿ 32åˆ†é¢‘
 **************************/
 void InitClock(void)
 {
-	CLKCONCMD &= ~0x40; // ÉèÖÃÏµÍ³Ê±ÖÓÔ´Îª 32MHZ¾§Õñ
+	CLKCONCMD &= ~0x40; // è®¾ç½®ç³»ç»Ÿæ—¶é’Ÿæºä¸º 32MHZæ™¶æŒ¯
 	while (CLKCONSTA & 0x40)
-		;				// µÈ´ı¾§ÕñÎÈ¶¨
-	CLKCONCMD &= ~0x47; // ÉèÖÃÏµÍ³Ö÷Ê±ÖÓÆµÂÊÎª 32MHZ
+		;				// ç­‰å¾…æ™¶æŒ¯ç¨³å®š
+	CLKCONCMD &= ~0x47; // è®¾ç½®ç³»ç»Ÿä¸»æ—¶é’Ÿé¢‘ç‡ä¸º 32MHZ
 }
 
-// KEY1 or 3ÖĞ¶Ï
+// KEY1 or 3ä¸­æ–­
 #pragma vector = P0INT_VECTOR
 __interrupt void P0_ISR(void)
 {
-	if (P0IFG & 0x02) // °´¼üP0.1ÖĞ¶Ï
+	if (P0IFG & 0x02) // æŒ‰é”®P0.1ä¸­æ–­
 	{
-		DelayMS_for_KEY(10); // ÑÓÊ±È¥¶¶
+		DelayMS_for_KEY(10); // å»¶æ—¶å»æŠ–
 		if (KEY1 == 0)
 		{
-			KeyValue = 1;												 // ²úÉúÖĞ¶Ï±£´æÖĞ¶Ï×´Ì¬
-			T1CTL = 0;													 // ¹Ø¼ÆÊ±Æ÷
-			LCD_ShowString(20, 150, "                         ", BLACK); // ÇåÆÁ
+			KeyValue = 1;												 // äº§ç”Ÿä¸­æ–­ä¿å­˜ä¸­æ–­çŠ¶æ€
+			T1CTL = 0;													 // å…³è®¡æ—¶å™¨
+			LCD_ShowString(20, 150, "                         ", BLACK); // æ¸…å±
 		}
 	}
-	if (P0IFG & 0x80) // °´¼üP0.7ÖĞ¶Ï
+	if (P0IFG & 0x80) // æŒ‰é”®P0.7ä¸­æ–­
 	{
-		DelayMS_for_KEY(10); // ÑÓÊ±È¥¶¶
+		DelayMS_for_KEY(10); // å»¶æ—¶å»æŠ–
 		if (KEY3 == 0)
 		{
 			KeyValue = 3;
-                        			count = 0;			   // ¼ÆÊıÇå0
-			memset(RxData, 0, 51); // Çå¿Õ½ÓÊÕ»º³åÇø
-			LCD_ShowString(20, 150, "                         ", BLACK); // ÇåÆÁ
+                        			count = 0;			   // è®¡æ•°æ¸…0
+			memset(RxData, 0, 51); // æ¸…ç©ºæ¥æ”¶ç¼“å†²åŒº
+			LCD_ShowString(20, 150, "                         ", BLACK); // æ¸…å±
 		}
 	}
 
-	P0IFG &= ~0x82; // ÇåPinÖĞ¶Ï±êÖ¾
-	P0IF = 0;		// Çå¶Ë¿Ú0ÖĞ¶Ï±êÖ¾
+	P0IFG &= ~0x82; // æ¸…Pinä¸­æ–­æ ‡å¿—
+	P0IF = 0;		// æ¸…ç«¯å£0ä¸­æ–­æ ‡å¿—
 }
 
-// KEY2ÖĞ¶Ï
+// KEY2ä¸­æ–­
 #pragma vector = P2INT_VECTOR
 __interrupt void P2_ISR(void)
 {
-	if (P2IFG & 0x01) // °´¼üP2.0ÖĞ¶Ï
+	if (P2IFG & 0x01) // æŒ‰é”®P2.0ä¸­æ–­
 	{
-		DelayMS_for_KEY(10); // ÑÓÊ±È¥¶¶
+		DelayMS_for_KEY(10); // å»¶æ—¶å»æŠ–
 		if (KEY2 == 0)
 		{
 			KeyValue = 2;
 			LED2 = 1;
-			LED3 = 0;													 // LED2ÁÁÆğ£¬LED3Ï¨Ãğ
-			T1CTL = 0;													 // ¹Ø¼ÆÊ±Æ÷
-			LCD_ShowString(20, 150, "                         ", BLACK); // ÇåÆÁ
+			LED3 = 0;													 // LED2äº®èµ·ï¼ŒLED3ç†„ç­
+			T1CTL = 0;													 // å…³è®¡æ—¶å™¨
+			LCD_ShowString(20, 150, "                         ", BLACK); // æ¸…å±
 		}
 	}
 
-	P2IFG &= ~0x01; // ÇåPinÖĞ¶Ï±êÖ¾
-	P2IF = 0;		// Çå¶Ë¿Ú0ÖĞ¶Ï±êÖ¾
+	P2IFG &= ~0x01; // æ¸…Pinä¸­æ–­æ ‡å¿—
+	P2IF = 0;		// æ¸…ç«¯å£0ä¸­æ–­æ ‡å¿—
 }
 
-/* E2Ğ´Èëº¯Êı£¬buf-Ô´Êı¾İÖ¸Õë£¬addr-E2ÖĞµÄÆğÊ¼µØÖ·£¬len-Ğ´Èë³¤¶È*/
+/* E2å†™å…¥å‡½æ•°ï¼Œbuf-æºæ•°æ®æŒ‡é’ˆï¼Œaddr-E2ä¸­çš„èµ·å§‹åœ°å€ï¼Œlen-å†™å…¥é•¿åº¦*/
 void E2Write1(unsigned char *buf, unsigned char addr, unsigned char len)
 {
 	while (len > 0)
 	{
 		do
-		{ // µÈ´ıÉÏ´ÎĞ´Èë²Ù×÷Íê³É£¬ÓÃÑ°Ö·²Ù×÷²éÑ¯µ±Ç°ÊÇ·ñ¿É½øĞĞ¶ÁĞ´²Ù×÷
+		{ // ç­‰å¾…ä¸Šæ¬¡å†™å…¥æ“ä½œå®Œæˆï¼Œç”¨å¯»å€æ“ä½œæŸ¥è¯¢å½“å‰æ˜¯å¦å¯è¿›è¡Œè¯»å†™æ“ä½œ
 			I2cStart();
 			if (I2cSendByte(0x51 << 1))
-			{ // Ó¦´ğÔòÌø³öÑ­»·£¬·ÇÓ¦´ğÔò½øĞĞÏÂÒ»´Î²éÑ¯
+			{ // åº”ç­”åˆ™è·³å‡ºå¾ªç¯ï¼Œéåº”ç­”åˆ™è¿›è¡Œä¸‹ä¸€æ¬¡æŸ¥è¯¢
 				break;
 			}
 			I2cStop();
 		} while (1);
-		// °´Ò³Ğ´Ä£Ê½Á¬ĞøĞ´Èë×Ö½Ú
-		I2cSendByte(addr); // Ğ´ÈëÆğÊ¼µØÖ·
+		// æŒ‰é¡µå†™æ¨¡å¼è¿ç»­å†™å…¥å­—èŠ‚
+		I2cSendByte(addr); // å†™å…¥èµ·å§‹åœ°å€
 		while (len > 0)
 		{
-			I2cSendByte(*buf++); // Ğ´ÈëÒ»¸ö×Ö½ÚÊı¾İ
-			len--;				 // ´ıĞ´Èë³¤¶È¼ÆÊıµİ¼õ
-			addr++;				 // E2µØÖ·µİÔö
+			I2cSendByte(*buf++); // å†™å…¥ä¸€ä¸ªå­—èŠ‚æ•°æ®
+			len--;				 // å¾…å†™å…¥é•¿åº¦è®¡æ•°é€’å‡
+			addr++;				 // E2åœ°å€é€’å¢
 			if ((addr & 0x07) == 0)
-			{ // ¼ì²éµØÖ·ÊÇ·ñµ½´ïÒ³±ß½ç£¬24C02Ã¿Ò³8×Ö½Ú£¬ËùÒÔ¼ì²âµÍ3Î»ÊÇ·ñÎªÁã¼´¿É
+			{ // æ£€æŸ¥åœ°å€æ˜¯å¦åˆ°è¾¾é¡µè¾¹ç•Œï¼Œ24C02æ¯é¡µ8å­—èŠ‚ï¼Œæ‰€ä»¥æ£€æµ‹ä½3ä½æ˜¯å¦ä¸ºé›¶å³å¯
 				break;
-			} // µ½´ïÒ³±ß½çÊ±£¬Ìø³öÑ­»·£¬½áÊø±¾´ÎĞ´²Ù×÷
+			} // åˆ°è¾¾é¡µè¾¹ç•Œæ—¶ï¼Œè·³å‡ºå¾ªç¯ï¼Œç»“æŸæœ¬æ¬¡å†™æ“ä½œ
 		}
 		I2cStop();
 	}
 }
 
-/* E2¶ÁÈ¡º¯Êı£¬buf-Êı¾İ½ÓÊÕÖ¸Õë£¬addr-E2ÖĞµÄÆğÊ¼µØÖ·£¬len-¶ÁÈ¡³¤¶È*/
+/* E2è¯»å–å‡½æ•°ï¼Œbuf-æ•°æ®æ¥æ”¶æŒ‡é’ˆï¼Œaddr-E2ä¸­çš„èµ·å§‹åœ°å€ï¼Œlen-è¯»å–é•¿åº¦*/
 void E2Read(unsigned char *buf,unsigned char addr, unsigned char len)
 {
 	do
-	{ // ÓÃÑ°Ö·²Ù×÷²éÑ¯µ±Ç°ÊÇ·ñ¿É½øĞĞ¶ÁĞ´²Ù×÷
+	{ // ç”¨å¯»å€æ“ä½œæŸ¥è¯¢å½“å‰æ˜¯å¦å¯è¿›è¡Œè¯»å†™æ“ä½œ
 		I2cStart();
 		if (I2cSendByte(0x51 << 1))
-		{ // Ó¦´ğÔòÌø³öÑ­»·£¬·ÇÓ¦´ğÔò½øĞĞÏÂÒ»´Î²éÑ¯
+		{ // åº”ç­”åˆ™è·³å‡ºå¾ªç¯ï¼Œéåº”ç­”åˆ™è¿›è¡Œä¸‹ä¸€æ¬¡æŸ¥è¯¢
 			break;
 		}
 		I2cStop();
 	} while (1);
-	I2cSendByte(addr);				 // Ğ´ÈëÆğÊ¼µØÖ·
-	I2cStart();						 // ·¢ËÍÖØ¸´Æô¶¯ĞÅºÅ
-	I2cSendByte((0x51 << 1) | 0x01); // Ñ°Ö·Æ÷¼ş£¬ºóĞøÎª¶Á²Ù×÷
+	I2cSendByte(addr);				 // å†™å…¥èµ·å§‹åœ°å€
+	I2cStart();						 // å‘é€é‡å¤å¯åŠ¨ä¿¡å·
+	I2cSendByte((0x51 << 1) | 0x01); // å¯»å€å™¨ä»¶ï¼Œåç»­ä¸ºè¯»æ“ä½œ
 	while (len > 1)
-	{							   // Á¬Ğø¶ÁÈ¡len-1¸ö×Ö½Ú
-		*buf++ = I2cReadByte(ACK); // ×îºó×Ö½ÚÖ®Ç°Îª¶ÁÈ¡²Ù×÷+Ó¦´ğ
+	{							   // è¿ç»­è¯»å–len-1ä¸ªå­—èŠ‚
+		*buf++ = I2cReadByte(ACK); // æœ€åå­—èŠ‚ä¹‹å‰ä¸ºè¯»å–æ“ä½œ+åº”ç­”
 		len--;
 	}
-	*buf = I2cReadByte(noACK); // ×îºóÒ»¸ö×Ö½ÚÎª¶ÁÈ¡²Ù×÷+·ÇÓ¦´ğ
+	*buf = I2cReadByte(noACK); // æœ€åä¸€ä¸ªå­—èŠ‚ä¸ºè¯»å–æ“ä½œ+éåº”ç­”
 	I2cStop();
 }
 
-// ¶¨Ê±Æ÷³õÊ¼»¯
+// å®šæ—¶å™¨åˆå§‹åŒ–
 void InitT1()
 {
-	T1CTL |= 0x0c; // 128·ÖÆµ
-	// Ã¿¸ô0.5s»á²úÉúÒ»¸öÖĞ¶ÏÇëÇó
-	T1CC0L = 0x12; // ÉèÖÃ×î´ó¼ÆÊıÊıÖµµÄµÍ8Î»¡£
-	T1CC0H = 0x7A; // ÉèÖÃ×î´ó¼ÆÊıÊıÖµµÄ¸ß8Î»¡£
-	T1OVFIM = 1;   // Ê¹ÄÜ¶¨Ê±Æ÷1Òç³öÖĞ¶Ï£¬¿É²»Ğ´
-	T1IE = 1;	   // Ê¹ÄÜ¶¨Ê±Æ÷1ÖĞ¶Ï
-	EA = 1;		   // ¿ªÈ«¾ÖÖĞ¶Ï
-	T1CTL |= 0x03; // ÉèÖÃUp/downÄ£Ê½£¬¼ÆÊı¿ªÊ¼
+	T1CTL |= 0x0c; // 128åˆ†é¢‘
+	// æ¯éš”0.5sä¼šäº§ç”Ÿä¸€ä¸ªä¸­æ–­è¯·æ±‚
+	T1CC0L = 0x12; // è®¾ç½®æœ€å¤§è®¡æ•°æ•°å€¼çš„ä½8ä½ã€‚
+	T1CC0H = 0x7A; // è®¾ç½®æœ€å¤§è®¡æ•°æ•°å€¼çš„é«˜8ä½ã€‚
+	T1OVFIM = 1;   // ä½¿èƒ½å®šæ—¶å™¨1æº¢å‡ºä¸­æ–­ï¼Œå¯ä¸å†™
+	T1IE = 1;	   // ä½¿èƒ½å®šæ—¶å™¨1ä¸­æ–­
+	EA = 1;		   // å¼€å…¨å±€ä¸­æ–­
+	T1CTL |= 0x03; // è®¾ç½®Up/downæ¨¡å¼ï¼Œè®¡æ•°å¼€å§‹
 }
 
-// ¶¨Ê±Æ÷1ÖĞ¶Ï´¦Àíº¯Êı
+// å®šæ—¶å™¨1ä¸­æ–­å¤„ç†å‡½æ•°
 #pragma vector = T1_VECTOR
 __interrupt void T1_INT(void)
 {
-	T1STAT &= ~0x20; // Çå³ı¶¨Ê±Æ÷1Òç³öÖĞ¶Ï±êÖ¾Î»
-	// IRCON = 0; //Çå³ıTimerÖĞ¶Ï±êÖ¾ T1IF£¬¿É²»Ğ´, ÓÉÓ²¼ş×Ô¶¯ÇåÁã
+	T1STAT &= ~0x20; // æ¸…é™¤å®šæ—¶å™¨1æº¢å‡ºä¸­æ–­æ ‡å¿—ä½
+	// IRCON = 0; //æ¸…é™¤Timerä¸­æ–­æ ‡å¿— T1IFï¼Œå¯ä¸å†™, ç”±ç¡¬ä»¶è‡ªåŠ¨æ¸…é›¶
 	// T1IF=0;
-	LED3 = !LED3; // 0.5s ÉÁË¸
+	LED3 = !LED3; // 0.5s é—ªçƒ
 }
 
 //******************************************************
@@ -317,76 +317,76 @@ int main(void)
 {
 	u8 i, m;
 	float t = 0;
-	InitClock();  // ÉèÖÃÏµÍ³Ê±ÖÓÔ´Îª32MHz¾§ÌåÕñµ´Æ÷
-	InitUART0();  // ³õÊ¼»¯´®¿Ú
+	InitClock();  // è®¾ç½®ç³»ç»Ÿæ—¶é’Ÿæºä¸º32MHzæ™¶ä½“æŒ¯è¡å™¨
+	InitUART0();  // åˆå§‹åŒ–ä¸²å£
 	Initial_IO(); //
 	// InitialAD();
 	InitKey();
-	Lcd_Init(); // ³õÊ¼»¯OLED
+	Lcd_Init(); // åˆå§‹åŒ–OLED
 	LCD_Clear(WHITE);
 	BACK_COLOR = WHITE;
-	// ¹ØµÆ
+	// å…³ç¯
 	LED1 = 0;
 	LED2 = 0;
 	LED3 = 0;
 
-	// ÎÂÊª¶È²âÁ¿Ïà¹Ø
+	// æ¸©æ¹¿åº¦æµ‹é‡ç›¸å…³
 	unsigned char error, checksum;
 	unsigned char HUMI, TEMP;
 	HUMI = 0X01;
 	TEMP = 0X02;
 
 	s_connectionreset();
-	while (1) //Õâ²ãÑ­»·Ã²ËÆÊÇ²»ĞèÒªµÄ
+	while (1) //è¿™å±‚å¾ªç¯è²Œä¼¼æ˜¯ä¸éœ€è¦çš„
 	{
-		LCD_ShowChinese32x32(10, 10, 0, 16, BLACK);		   // Íõ
-		LCD_ShowChinese32x32(30, 10, 1, 16, BLACK);		   // ¹Ú
-		LCD_ShowChinese32x32(50, 10, 2, 16, BLACK);		   // ³¬
-		LCD_ShowString(80, 10, "U202140874", GREEN);	   // Ñ§ºÅ
-		LCD_ShowPicture(10, 50, 10 + 60 - 1, 50 + 80 - 1); // ÕÕÆ¬
+		LCD_ShowChinese32x32(10, 10, 0, 16, BLACK);		   // 
+		LCD_ShowChinese32x32(30, 10, 1, 16, BLACK);		   // 
+		LCD_ShowChinese32x32(50, 10, 2, 16, BLACK);		   // 
+		LCD_ShowString(80, 10, "U202140874", GREEN);	   // å­¦å·
+		LCD_ShowPicture(10, 50, 10 + 60 - 1, 50 + 80 - 1); // ç…§ç‰‡
 
 		while (1)
 		{
-			static int now_addr = 0; // ¼ÇÂ¼Ğ´Èëµ±Ç°Êª¶ÈÖµµÄµØÖ·
+			static int now_addr = 0; // è®°å½•å†™å…¥å½“å‰æ¹¿åº¦å€¼çš„åœ°å€
 			if (KeyValue == 1)
 			{
-				InitialAD(); // Æô¶¯Ò»´Î×ª»»
+				InitialAD(); // å¯åŠ¨ä¸€æ¬¡è½¬æ¢
 				while (!(ADCCON1 & 0x80))
-					; // ADCCON1.EOC,×ª»»Íê±ÏÅĞ¶Ï
+					; // ADCCON1.EOC,è½¬æ¢å®Œæ¯•åˆ¤æ–­
 				char temp[2];
 				uint adc = 0;
 				float num = 0;
-				// LED1 = 0; // ×ª»»Íê±ÏÖ¸Ê¾
-				// LED2 = 1; // ´ò¿ªÊı¾İ´¦ÀíÖ¸Ê¾µÆ
+				// LED1 = 0; // è½¬æ¢å®Œæ¯•æŒ‡ç¤º
+				// LED2 = 1; // æ‰“å¼€æ•°æ®å¤„ç†æŒ‡ç¤ºç¯
 				temp[1] = ADCL;
 				temp[0] = ADCH;
 
 				adc |= (uint)temp[1];
 				adc |= ((uint)temp[0]) << 8;
-				adc >>= 2; // ADCL[1:0]Ã»ÓÃÊ¹ÓÃ
+				adc >>= 2; // ADCL[1:0]æ²¡ç”¨ä½¿ç”¨
 				num = (float)adc;
-				// num = adc * 3.3 / 8192; // ¶¨²Î¿¼µçÑ¹Îª3.3V¡£14Î»·Ö±æÂÊ
+				// num = adc * 3.3 / 8192; // å®šå‚è€ƒç”µå‹ä¸º3.3Vã€‚14ä½åˆ†è¾¨ç‡
 				// adcdata[1] = (char)(num) % 10 + 48;
 				// adcdata[3] = (char)(num * 10) % 10 + 48;
-				// UartTX_Send_String(adcdata, 6); // ´®¿ÚËÍÊı
+				// UartTX_Send_String(adcdata, 6); // ä¸²å£é€æ•°
 				LCD_ShowString(40, 150, "ADC: ", BLACK);
 				LCD_ShowNum1(80, 150, num, 5, BLUE);
-				// LED2 = 0; // Íê³ÉÊı¾İ´¦Àí
+				// LED2 = 0; // å®Œæˆæ•°æ®å¤„ç†
 			}
 			else if (KeyValue == 2)
 			{
 				delay_ms(1000);
 				error = 0;
-				// ÕâÀï²»ÄÜ´«Öµ£¬ÎÒ²»ÖªµÀÎªÊ²Ã´
-				// ÒÑ¾­½â¾ö£¬Ã»°üº¬Í·ÎÄ¼ş£¬µ«ÊÇIAR¾ÓÈ»²»±¨´í£¬±àÒëÆ÷Ì«ÀëÆ×
-				error += s_measure((unsigned char *)&humi_val.i, &checksum, HUMI); // Êª¶È²âÁ¿
-				error += s_measure((unsigned char *)&temp_val.i, &checksum, TEMP); // ÎÂ¶È²âÁ¿
+				// è¿™é‡Œä¸èƒ½ä¼ å€¼ï¼Œæˆ‘ä¸çŸ¥é“ä¸ºä»€ä¹ˆ
+				// å·²ç»è§£å†³ï¼Œæ²¡åŒ…å«å¤´æ–‡ä»¶ï¼Œä½†æ˜¯IARå±…ç„¶ä¸æŠ¥é”™ï¼Œç¼–è¯‘å™¨å¤ªç¦»è°±
+				error += s_measure((unsigned char *)&humi_val.i, &checksum, HUMI); // æ¹¿åº¦æµ‹é‡
+				error += s_measure((unsigned char *)&temp_val.i, &checksum, TEMP); // æ¸©åº¦æµ‹é‡
 
 				temp_value = temp_val.i * 0.01 - 39.6;
 				// sprintf(temp_result, "%s", "temperature:");
 				// UartTX_Send_String(temp_result, 13);
 				LCD_ShowString(20, 150, "temperature:", BLACK);
-				sprintf(temp_result, "%3.2f C\0", temp_value); // ¼Ó¸öÉãÊÏ¶È·ûºÅ
+				sprintf(temp_result, "%3.2f C\0", temp_value); // åŠ ä¸ªæ‘„æ°åº¦ç¬¦å·
 				// UartTX_Send_String(temp_result, 10);
 				LCD_ShowString(130, 150, temp_result, BLUE);
 
@@ -394,15 +394,15 @@ int main(void)
 				// sprintf(humi_result, "%s", "humidity: ");
 				// UartTX_Send_String(humi_result, 10);
 				// sprintf(humi_result, "%3.4f", humi_value);
-				// 000.0000 ĞèÒª±£´æ8Î»£¬ÕıºÃÊÇ24C02µÄÒ»Ò³
+				// 000.0000 éœ€è¦ä¿å­˜8ä½ï¼Œæ­£å¥½æ˜¯24C02çš„ä¸€é¡µ
 				// UartTX_Send_String(humi_result, 10);
-				static char humi_count = 0; // ¼ÇÂ¼Ğ´ÈëÊª¶ÈÖµµÄ´ÎÊı <100
+				static char humi_count = 0; // è®°å½•å†™å…¥æ¹¿åº¦å€¼çš„æ¬¡æ•° <100
 				if (humi_count < 100)
 				{
-					// ÓÉÓÚ24C02Ò»¹²ÄÜ´æ´¢256×Ö½ÚÊı¾İ£¬ÕâÑù»á´æ²»ÏÂ
-					// E2Write1(humi_result, now_addr, 8); // Ã¿´ÎĞ´Èë8×Ö½ÚÊı¾İ
+					// ç”±äº24C02ä¸€å…±èƒ½å­˜å‚¨256å­—èŠ‚æ•°æ®ï¼Œè¿™æ ·ä¼šå­˜ä¸ä¸‹
+					// E2Write1(humi_result, now_addr, 8); // æ¯æ¬¡å†™å…¥8å­—èŠ‚æ•°æ®
 
-					// ¸ÄÎªÁ½¸ö×Ö½Ú·Ö±ğ´æ´¢Ğ¡ÊıµãÇ°(<127)ºÍĞ¡ÊıµãºóÁ½Î»£¬ÀıÈç123.78, humi_char1 ´æ´¢ 123£¬ humi_char2 ´æ´¢ 78
+					// æ”¹ä¸ºä¸¤ä¸ªå­—èŠ‚åˆ†åˆ«å­˜å‚¨å°æ•°ç‚¹å‰(<127)å’Œå°æ•°ç‚¹åä¸¤ä½ï¼Œä¾‹å¦‚123.78, humi_char1 å­˜å‚¨ 123ï¼Œ humi_char2 å­˜å‚¨ 78
 					u8 humi_char1 = (int)humi_value;
 					u8 humi_char2 = (int)(humi_value * 100) % 100;
 					E2Write1(&humi_char1, now_addr, 1);
@@ -413,21 +413,21 @@ int main(void)
 				else
 				{
 					humi_count = 0;
-					now_addr = 0; // Ö»¼ÇÂ¼×î½üµÄ100Ìõ£¬Ö±½Ó¸²¸ÇÖ®Ç°µÄ
-					LED2 = 0;	  // Ï¨ÃğLED2
+					now_addr = 0; // åªè®°å½•æœ€è¿‘çš„100æ¡ï¼Œç›´æ¥è¦†ç›–ä¹‹å‰çš„
+					LED2 = 0;	  // ç†„ç­LED2
 				}
 
 				if (error != 0)
 				{
-					s_connectionreset(); // Èç¹û·¢Éú´íÎó£¬ÏµÍ³¸´Î»
+					s_connectionreset(); // å¦‚æœå‘ç”Ÿé”™è¯¯ï¼Œç³»ç»Ÿå¤ä½
 										 // LED1 = !LED1;
 										 // LED2 = !LED2;
 				}
 				else
 				{
-					humi_val.f = (float)humi_val.i;		  // ×ª»»Îª¸¡µãÊı
-					temp_val.f = (float)temp_val.i;		  // ×ª»»Îª¸¡µãÊı
-					calc_sth11(&humi_val.f, &temp_val.f); // ĞŞÕıÏà¶ÔÊª¶È¼°ÎÂ¶È
+					humi_val.f = (float)humi_val.i;		  // è½¬æ¢ä¸ºæµ®ç‚¹æ•°
+					temp_val.f = (float)temp_val.i;		  // è½¬æ¢ä¸ºæµ®ç‚¹æ•°
+					calc_sth11(&humi_val.f, &temp_val.f); // ä¿®æ­£ç›¸å¯¹æ¹¿åº¦åŠæ¸©åº¦
 				}
 			}
 			else if (KeyValue == 3)
@@ -435,14 +435,14 @@ int main(void)
 				static char sign = 0;
 				if (sign == 0)
 				{
-					InitT1(); // ³õÊ¼»¯¶¨Ê±Æ÷T1 ¿ªÊ¼ÉÁË¸
+					InitT1(); // åˆå§‹åŒ–å®šæ—¶å™¨T1 å¼€å§‹é—ªçƒ
 					sign = 1;
 					key3_state = 0;
 				}
 				if (key3_state == 1)
 				{
-					// LED3½øÈë³£ÁÁ×´Ì¬£¬´Ó24C02ÖĞÈ¡³ö×î½üµÄ100´ÎÊª¶ÈÖµÍ¨¹ı´®¿Ú´«¸øPC
-					// ¹Ø±Õ¶¨Ê±Æ÷1
+					// LED3è¿›å…¥å¸¸äº®çŠ¶æ€ï¼Œä»24C02ä¸­å–å‡ºæœ€è¿‘çš„100æ¬¡æ¹¿åº¦å€¼é€šè¿‡ä¸²å£ä¼ ç»™PC
+					// å…³é—­å®šæ—¶å™¨1
 					T1CTL = 0;
 					LED3 = 1;
 					uchar ii = 0;
@@ -452,13 +452,13 @@ int main(void)
 					for (ii = 0; ii < 100; ii++)
 					{
 						E2Read(getdata, now_addr, 2);
-						//¶ÁÈ¡Íê³Éºó£¬getdata[0]ÊÇ´æ´¢Ğ¡ÊıµãÇ°µÄ£¬getdata[1]ÊÇ´æ´¢Ğ¡ÊıµãºóµÄ
+						//è¯»å–å®Œæˆåï¼Œgetdata[0]æ˜¯å­˜å‚¨å°æ•°ç‚¹å‰çš„ï¼Œgetdata[1]æ˜¯å­˜å‚¨å°æ•°ç‚¹åçš„
 						sprintf(str_data, "%d.%d", *getdata, *(getdata+1));
 						now_addr += 2;
 						if (now_addr == 202)
 							now_addr = 0;
 						sprintf(ii_to_str, "%3d. ", ii);
-						// ĞèÒª¼ä¸ôÒ»¶¨Ê±¼ä£¬±£Ö¤´®¿ÚÊä³öÍê³É
+						// éœ€è¦é—´éš”ä¸€å®šæ—¶é—´ï¼Œä¿è¯ä¸²å£è¾“å‡ºå®Œæˆ
 						UartTX_Send_String(ii_to_str, 7);
 						delay_ms(100);
 						UartTX_Send_String(str_data, 8);
